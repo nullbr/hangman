@@ -1,3 +1,5 @@
+require 'erb'
+
 class Hangman
   def initialize(player)
     @player = player
@@ -13,7 +15,7 @@ class Hangman
       words << line unless line.size < 5 && line.size > 12
     end
     rand_index = rand(0..words.size)
-    p @secret_word = words[rand_index].tr("\n", "")
+    p @secret_word = words[rand_index].tr("\n", '')
   end
 
   def set_board
@@ -24,7 +26,7 @@ class Hangman
     # get a letter from user and check if it is in the secret word
     hit = false
     @used_letters << letter
-    @secret_word.split('').each_with_index do |l, idx| 
+    @secret_word.split('').each_with_index do |l, idx|
       if l == letter.downcase
         @board[idx] = l.downcase
         hit = true
@@ -34,6 +36,9 @@ class Hangman
   end
 
   def current_board
+    corpse_template = File.read('corpse.erb')
+    corpse = ERB.new corpse_template
+    puts corpse.result(binding)
     puts @board
     puts "Letters used so far: #{@used_letters.join(', ')}"
     puts "You have #{@chances} chances left"
@@ -53,6 +58,7 @@ class Hangman
   end
 end
 
+print "Let's play Hangman! What's your name? "
 game = Hangman.new(gets.chomp)
 game.get_secret_word
 game.set_board
@@ -62,6 +68,8 @@ while game.end_game == 3
   game.current_board
   print "#{n} try: "
   game.check_letter(gets.chomp)
-  system "clear"
+  system 'clear'
   n += 1
 end
+
+game.current_board
