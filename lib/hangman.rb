@@ -2,6 +2,7 @@ class Hangman
   def initialize(player)
     @player = player
     @chances = 7
+    @used_letters = []
   end
 
   def get_secret_word
@@ -22,6 +23,7 @@ class Hangman
   def check_letter(letter)
     # get a letter from user and check if it is in the secret word
     hit = false
+    @used_letters << letter
     @secret_word.split('').each_with_index do |l, idx| 
       if l == letter.downcase
         @board[idx] = l.downcase
@@ -32,8 +34,9 @@ class Hangman
   end
 
   def current_board
-    puts "You have #{@chances} chances left"
     puts @board
+    puts "Letters used so far: #{@used_letters.join(', ')}"
+    puts "You have #{@chances} chances left"
   end
 
   def end_game
