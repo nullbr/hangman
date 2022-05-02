@@ -7,7 +7,7 @@ class Hangman
     @used_letters = []
   end
 
-  def get_secret_word
+  def secret_word
     # get word between 5 and 12 characters long for the secret word.
     words = []
     dictionary = File.join('google-10000-english-no-swears.txt')
@@ -70,5 +70,17 @@ class Hangman
     else
       3
     end
+  end
+
+  def current_game
+    { 'player' => @player, 'secret_word' => @secret_word, 'board' => @board, 'remaining_chances' => @chances,
+      'used_letters' => @used_letters }
+  end
+
+  def set_loaded_game(loaded_game)
+    @secret_word = loaded_game['secret_word']
+    @board = loaded_game['board']
+    @chances = loaded_game['remaining_chances']
+    @used_letters = loaded_game['used_letters']
   end
 end
