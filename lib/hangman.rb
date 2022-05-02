@@ -2,7 +2,7 @@ require 'erb'
 
 class Hangman
   def initialize(player)
-    @player = player
+    @player = player.capitalize
     @chances = 7
     @used_letters = []
   end
@@ -27,9 +27,7 @@ class Hangman
     # return the clean input if it is valid, nil otherwise
     input = input.lstrip
     # check if theres only letters
-    if input.match?(/\A[a-z]*\z/) && input.size == 1
-      input
-    end
+    input if input.match?(/\A[a-z]*\z/) && input.size == 1 && !@used_letters.include?(input)
   end
 
   def check_letter(letter)
@@ -57,6 +55,8 @@ class Hangman
     end
     puts "Letters used so far: #{@used_letters.join(', ')}"
     puts "You have #{@chances} chances left"
+    puts "Congrats #{@player}, you are the master of dictionaries!! :)" if end_game == 1
+    puts "Sorry #{@player}, you are dead :(" if end_game == 2
   end
 
   def end_game
@@ -72,24 +72,3 @@ class Hangman
     end
   end
 end
-
-print "Let's play Hangman! What's your name? "
-game = Hangman.new(gets.chomp)
-game.get_secret_word
-game.set_board
-
-n = 1
-while game.end_game == 3
-  system 'clear'
-  game.current_board
-  print "#{n} try. Insert a letter: "
-  input = game.valid_input(gets.chomp.downcase)
-  next if input.nil?
-
-  p input
-  game.check_letter(input)
-  n += 1
-end
-
-puts game.get_secret_word
-game.current_board
