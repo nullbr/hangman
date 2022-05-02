@@ -62,5 +62,6 @@ while game.end_game == 3
   game.current_board
   print "#{n} try: "
   game.check_letter(gets.chomp)
+  system "clear"
   n += 1
 end
