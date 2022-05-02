@@ -23,13 +23,22 @@ class Hangman
     @board = '____________'[1..@secret_word.size]
   end
 
+  def valid_input(input)
+    # return the clean input if it is valid, nil otherwise
+    input = input.lstrip
+    # check if theres only letters
+    if input.match?(/\A[a-z]*\z/) && input.size == 1
+      input
+    end
+  end
+
   def check_letter(letter)
     # get a letter from user and check if it is in the secret word
     hit = false
     @used_letters << letter
     @secret_word.split('').each_with_index do |l, idx|
-      if l == letter.downcase
-        @board[idx] = l.downcase
+      if l == letter
+        @board[idx] = l
         hit = true
       end
     end
@@ -40,6 +49,7 @@ class Hangman
     corpse_template = File.read('corpse.erb')
     corpse = ERB.new corpse_template
     puts corpse.result(binding)
+    # show secret at the end of the game
     if @chances.zero?
       puts @secret_word
     else
@@ -70,10 +80,14 @@ game.set_board
 
 n = 1
 while game.end_game == 3
-  game.current_board
-  print "#{n} try: "
-  game.check_letter(gets.chomp)
   system 'clear'
+  game.current_board
+  print "#{n} try. Insert a letter: "
+  input = game.valid_input(gets.chomp.downcase)
+  next if input.nil?
+
+  p input
+  game.check_letter(input)
   n += 1
 end
 
