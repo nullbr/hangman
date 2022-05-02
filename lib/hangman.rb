@@ -12,10 +12,11 @@ class Hangman
     words = []
     dictionary = File.join('google-10000-english-no-swears.txt')
     File.readlines(dictionary).each do |line|
-      words << line unless line.size < 5 && line.size > 12
+      line = line.tr("\n", '')
+      words << line if line.size >= 5 && line.size <= 12
     end
     rand_index = rand(0..words.size)
-    p @secret_word = words[rand_index].tr("\n", '')
+    @secret_word = words[rand_index].tr("\n", '')
   end
 
   def set_board
@@ -39,7 +40,11 @@ class Hangman
     corpse_template = File.read('corpse.erb')
     corpse = ERB.new corpse_template
     puts corpse.result(binding)
-    puts @board
+    if @chances.zero?
+      puts @secret_word
+    else
+      puts @board
+    end
     puts "Letters used so far: #{@used_letters.join(', ')}"
     puts "You have #{@chances} chances left"
   end
@@ -72,4 +77,5 @@ while game.end_game == 3
   n += 1
 end
 
+puts game.get_secret_word
 game.current_board
