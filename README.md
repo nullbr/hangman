@@ -1,5 +1,7 @@
-## Assignment
-# You will be building a simple command line Hangman game where one player plays against the computer, but a bit more advanced. If you’re unfamiliar with how Hangman works, see Wikipedia.
+# Play it at https://replit.com/@nullbr/hangman
+
+# Assignment
+You will be building a simple command line Hangman game where one player plays against the computer, but a bit more advanced. If you’re unfamiliar with how Hangman works, see Wikipedia.
 
 1. Download the google-10000-english-no-swears.txt dictionary file from the first20hours GitHub repository google-10000-english.
 2. When a new game is started, your script should load in the dictionary and randomly select a word between 5 and 12 characters long for the secret word.
