@@ -49,8 +49,10 @@ while game.end_game == 3
   system 'clear'
 
   game.current_board
-  print "#{n} try. Insert a letter: "
-  input = game.valid_input(gets.chomp.downcase)
+  print "Try number #{n}. Insert a letter: "
+  input = gets.chomp.downcase
+  abort('Exiting the game...') if %w[quit end].include?(input)
+  input = game.valid_input(input)
   next if input.nil?
 
   game.check_letter(input)

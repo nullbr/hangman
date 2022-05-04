@@ -27,7 +27,7 @@ class Hangman
     # return the clean input if it is valid, nil otherwise
     input = input.lstrip
     # check if theres only letters
-    input if input.match?(/\A[a-z]*\z/) && input.size == 1 && !@used_letters.include?(input)
+    input if input.match?(/^[[:alpha:]]+$/) && input.size == 1 && !@used_letters.include?(input)
   end
 
   def check_letter(letter)
