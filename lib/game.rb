@@ -13,8 +13,9 @@ end
 def choose_saved_game
   saved_games = Dir.entries('saved')
   saved_games[2..saved_games.size].each_with_index { |filename, idx| puts "#{idx}: #{filename}" }
-  choose_file = gets.chomp.to_i
-  saved_games[choose_file + 2]
+  choose_file = gets.chomp
+  abort('Exiting the game...') if %w[quit end].include?(choose_file)
+  saved_games[choose_file.to_i + 2]
 end
 
 def load_game(filename)
@@ -23,12 +24,15 @@ def load_game(filename)
 end
 
 print 'Type 0 to start a new game, or 1 to load a game: '
-choice = gets.chomp.to_i
+choice = gets.chomp
+abort('Exiting the game...') if %w[quit end].include?(choice)
+choice = choice.to_i
 if choice.zero?
   print "Let's play Hangman! What's your name? "
   game = Hangman.new(gets.chomp)
   print 'Type 0 to play with english words or 1 to play with portuguese words: '
   lang = gets.chomp
+  abort('Exiting the game...') if %w[quit end].include?(lang)
   filename = if lang.to_i.zero?
                'google-10000-english-no-swears.txt'
              else
