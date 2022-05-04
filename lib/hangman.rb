@@ -61,7 +61,7 @@ class Hangman
 
   def end_game
     # check if board is complete
-    if @board.match?(/\A[a-z]*\z/)
+    if @board.match?(/^[[:alpha:]]+$/)
       1
     # check if user is out of chances
     elsif @chances.zero?
