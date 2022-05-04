@@ -46,7 +46,7 @@ end
 
 n = 1
 while game.end_game == 3
-  #system 'clear'
+  system 'clear'
 
   game.current_board
   print "#{n} try. Insert a letter: "
