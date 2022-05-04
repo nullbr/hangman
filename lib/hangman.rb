@@ -7,12 +7,12 @@ class Hangman
     @used_letters = []
   end
 
-  def secret_word
+  def secret_word(filename)
     # get word between 5 and 12 characters long for the secret word.
     words = []
-    dictionary = File.join('google-10000-english-no-swears.txt')
+    dictionary = File.join(filename)
     File.readlines(dictionary).each do |line|
-      line = line.tr("\n", '')
+      line = line.lstrip.tr("\n", '')
       words << line if line.size >= 5 && line.size <= 12
     end
     rand_index = rand(0..words.size)

@@ -27,7 +27,14 @@ choice = gets.chomp.to_i
 if choice.zero?
   print "Let's play Hangman! What's your name? "
   game = Hangman.new(gets.chomp)
-  game.secret_word
+  print 'Type 0 to play with english words or 1 to play with portuguese words: '
+  lang = gets.chomp
+  filename = if lang.to_i.zero?
+               'google-10000-english-no-swears.txt'
+             else
+               'portuguese_words.txt'
+             end
+  game.secret_word(filename)
   game.set_board
 else
   puts 'Choose from saved games: '
@@ -39,7 +46,7 @@ end
 
 n = 1
 while game.end_game == 3
-  system 'clear'
+  #system 'clear'
 
   game.current_board
   print "#{n} try. Insert a letter: "
