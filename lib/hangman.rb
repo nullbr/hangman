@@ -1,6 +1,8 @@
 require 'erb'
 
 class Hangman
+  attr_reader :player, :secret_word, :board, :chances, :used_letters
+
   def initialize(player)
     @player = player.capitalize
     @chances = 7
@@ -72,15 +74,15 @@ class Hangman
     end
   end
 
-  def current_game
-    { 'player' => @player, 'secret_word' => @secret_word, 'board' => @board, 'remaining_chances' => @chances,
-      'used_letters' => @used_letters }
-  end
+  #def current_game
+   # { 'player' => @player, 'secret_word' => @secret_word, 'board' => @board, 'remaining_chances' => @chances,
+    #  'used_letters' => @used_letters }
+  #end
 
-  def set_loaded_game(loaded_game)
-    @secret_word = loaded_game['secret_word']
-    @board = loaded_game['board']
-    @chances = loaded_game['remaining_chances']
-    @used_letters = loaded_game['used_letters']
-  end
+  #def set_loaded_game(loaded_game)
+   # @secret_word = loaded_game['secret_word']
+    #@board = loaded_game['board']
+    #@chances = loaded_game['remaining_chances']
+    #@used_letters = loaded_game['used_letters']
+  #end
 end

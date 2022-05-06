@@ -1,13 +1,10 @@
 require_relative 'hangman'
-require 'json'
+require 'yaml'
 
-def save_game(current_game)
+def save_game(game, filename)
   Dir.mkdir('saved') unless Dir.exist?('saved')
-  filename = "saved/#{current_game['player']}.json"
-  File.open(filename, 'w') do |file|
-    file.puts current_game.to_json
-  end
-  filename
+  dumpfile = YAML.dump(game)
+  File.write(filename, dumpfile)
 end
 
 # Choose from saved games, return filename if exists, return nil if it does not
@@ -15,6 +12,7 @@ def choose_saved_game
   puts 'Getting saved games...'
   options = []
   if Dir.exist?('saved') && Dir.entries('saved').size > 2
+    puts 'Choose from saved games: '
     saved_games = Dir.entries('saved')[2..-1]
   else
     puts 'There are no saved games'
@@ -34,7 +32,7 @@ def load_game(filename)
   JSON.parse(loaded_game)
 end
 
-def get_input(options = "")
+def get_input(options = ' ')
   yield if block_given?
   while true
     input = gets.chomp.strip
@@ -42,11 +40,11 @@ def get_input(options = "")
       abort('Exiting the game...')
 
     # Check if theres only letters in the string if options are string
-    elsif options.empty? && input.match?(/^[[:alpha:]]+$/)
+    elsif options == ' ' && input.match?(/^[[:alpha:]]+$/)
       break
 
     # Check if string only contains an integer and its the correct type
-    elsif input !~ /\D/
+    elsif !(options == ' ') && input !~ /\D/
       input = input.to_i
       options.include?(input) ? break : (print "Options are #{options} ")
 
@@ -58,18 +56,23 @@ def get_input(options = "")
   input
 end
 
-print 'Type 0 to start a new game, or 1 to load a game: '
-choice = get_input([0, 1])
+if Dir.exist?('saved') && Dir.entries('saved').size > 2
+  print 'Type 0 to start a new game, or 1 to load a game: '
+  choice = get_input([0, 1])
+else
+  choice = 0
+end
+
+# Initializing new game
+puts "Let's play Hangman!"
 
 if choice.zero?
-  # Initializing new game
-  print "Let's play Hangman! What's your name? "
   name = get_input { print "What's your name? " }
   game = Hangman.new(name)
 
   # Set new file to be used for saving the game
   time = Time.now.strftime('%Hh%M-%d-%m-%Y')
-  filename = "saved/#{game.current_game['player']}-#{time}.json"
+  filename = "saved/#{name}-#{time}.json"
 
   # Choose from the desired dictionary
   print 'Type 0 to play with english words or 1 to play with portuguese words: '
@@ -78,7 +81,6 @@ if choice.zero?
   game.secret_word(dictionary)
   game.set_board
 else
-  puts 'Choose from saved games: '
   filename = choose_saved_game { |options| get_input(options) }
   loaded_game = load_game(filename)
   game = Hangman.new(loaded_game['player'])
@@ -87,7 +89,7 @@ end
 
 n = 1
 while game.end_game == 3
-  system 'clear'
+  #system 'clear'
 
   game.current_board
   print "Try number #{n}. Insert a letter: "
@@ -97,7 +99,7 @@ while game.end_game == 3
 
   game.check_letter(input)
   n += 1
-  filename = save_game(game.current_game)
+  save_game(game, filename)
 end
 
 File.delete(filename) if File.exist?(filename)
