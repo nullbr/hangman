@@ -1,7 +1,0 @@
---- !ruby/object:Hangman
-player: Bruno
-chances: 6
-used_letters:
-- b
-secret_word: royalty
-board: _______
