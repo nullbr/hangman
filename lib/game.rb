@@ -54,6 +54,10 @@ end
 # Initializing new game
 puts "Let's play Hangman!"
 puts "___________________"
+puts 'Quit at anytime by typing: quit, end or exit'
+puts 'The game will be saved automatically after the game starts'
+puts 'When starting the game, choose a saved game to continue playing'
+puts '___________________'
 
 if Dir.exist?('saved') && Dir.entries('saved').size > 2
   puts "0: to start a new game \n1: to load a game"
