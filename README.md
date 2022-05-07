@@ -1,6 +1,10 @@
-# Play it at https://replit.com/@nullbr/hangman
+## Hangman - Jogo da Velha
+Play it at [Replit-Hangman](https://replit.com/@nullbr/hangman)
 
-# Assignment
+<img src="https://user-images.githubusercontent.com/94543524/167274798-cce2d832-6113-4037-bba4-e4f02ceca232.jpg" alt="drawing" width="60%"/>
+<img src="https://user-images.githubusercontent.com/94543524/167274831-6be51b7a-e217-4271-80eb-004d1f303e6b.jpg" alt="drawing" width="60%"/>
+
+### [The Odin Project - Assignment](https://www.theodinproject.com/lessons/ruby-hangman)
 You will be building a simple command line Hangman game where one player plays against the computer, but a bit more advanced. If you’re unfamiliar with how Hangman works, see Wikipedia.
 
 1. Download the google-10000-english-no-swears.txt dictionary file from the first20hours GitHub repository google-10000-english.
